@@ -14,8 +14,7 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace CANBOOKRAM.Areas.Identity.Pages.Account
 {
-    [Authorize]
-    //[AllowAnonymous]
+    [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
