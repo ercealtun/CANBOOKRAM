@@ -149,7 +149,6 @@ namespace CANBOOKRAM.Models
 
             modelBuilder.Entity<UserProfile>(entity =>
             {
-                entity.HasNoKey();
 
                 entity.ToTable("UserProfile");
 
