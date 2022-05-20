@@ -1,0 +1,69 @@
+﻿@page
+@model CANBOOKRAM.Pages.post.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.UserPost[0].Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserPost[0].Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserPost[0].Timestamp)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.UserPost != null)
+        {
+            @foreach (var item in Model.UserPost)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Message)
+                    </td>
+                    <td>
+                        @if (item.Picture != null)
+                        {
+                            <img src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" width="80" height="80" />
+                        }
+                        else
+                        {
+                            <div></div>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Timestamp)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>No posts!</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
