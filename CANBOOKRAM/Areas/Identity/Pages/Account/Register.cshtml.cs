@@ -82,6 +82,28 @@ namespace CANBOOKRAM.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
+            [Required]
+            [StringLength(50,MinimumLength = 2)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(50, MinimumLength = 2)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [StringLength(50, MinimumLength = 2)]
+            [Display(Name = "City")]
+            public string City { get; set; }
+
+            [Required]
+            [DataType(DataType.Date)]
+            [Display(Name = "Birth Date")]
+            public string BirthDate { get; set; }
+
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
