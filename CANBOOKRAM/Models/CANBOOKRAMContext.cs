@@ -24,6 +24,7 @@ namespace CANBOOKRAM.Models
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<UserPost> UserPosts { get; set; } = null!;
         public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
+        public virtual DbSet<Friends> Friends { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

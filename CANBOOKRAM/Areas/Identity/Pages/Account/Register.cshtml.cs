@@ -101,7 +101,7 @@ namespace CANBOOKRAM.Areas.Identity.Pages.Account
             [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Birth Date")]
-            public string BirthDate { get; set; }
+            public DateTime BirthDate { get; set; }
 
 
             [Required]
@@ -158,6 +158,10 @@ namespace CANBOOKRAM.Areas.Identity.Pages.Account
 
                     var userProfileDetail = new UserProfile();
                     userProfileDetail.UserId = userId;
+                    userProfileDetail.FirstName = Input.FirstName;
+                    userProfileDetail.LastName = Input.LastName;
+                    userProfileDetail.City = Input.City;
+                    userProfileDetail.BirthDate = Input.BirthDate;
                     var memoryStream = new MemoryStream();
                     await FileUpload.FormFile.CopyToAsync(memoryStream);
                     userProfileDetail.ProfilePicture = memoryStream.ToArray();
