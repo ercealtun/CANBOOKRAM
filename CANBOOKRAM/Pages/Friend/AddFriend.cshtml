@@ -1,0 +1,14 @@
+﻿@page
+@model AddFriendModel
+@{
+        ViewData["Title"] = "Add Friend";
+}
+
+<div class="container">
+       <div class="row">
+         <div class="col-2">Receiver</div>
+         <div class="col-4">@Html.DropDownList("receiver",Model.Users, "All")</div>
+       </div>
+       @*<button type="submit" id="sendMessage" onclick="@Model.OnPostAsync()">Send Friend Request</button>*@
+</div>
+​

@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CANBOOKRAM.Pages.chat
 {
-
-    //only authenticated can access this page
-   [AllowAnonymous]
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
