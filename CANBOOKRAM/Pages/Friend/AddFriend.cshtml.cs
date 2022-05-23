@@ -4,55 +4,74 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
-namespace CANBOOKRAM.Pages.Friend
+namespace CANBOOKRAM.Pages.friend
 {
     [Authorize]
     public class AddFriendModel : PageModel
     {
-        private readonly ILogger<AddFriendModel> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly CANBOOKRAMContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
         [BindProperty]
         public List<SelectListItem> Users { get; set; }
-
         [BindProperty]
-        public string MyUser { get; set; }
-        public AddFriendModel(ILogger<AddFriendModel> logger, UserManager<IdentityUser> userManager, CANBOOKRAMContext context)
+        public string Current_User { get; set; }
+        public IEnumerable<FriendRequestModel> FriendshipRequests { get; set; }
+        public IEnumerable<FriendRequestModel> FriendList { get; set; }
+        public Friends friendRequest { get; set; }
+        
+        public AddFriendModel(CANBOOKRAMContext context, UserManager<IdentityUser> userManager)
         {
-            _logger = logger;
-            _userManager = userManager;
             _context = context;
+            _userManager = userManager;
         }
 
-        public async Task OnGet()
+        public class FriendRequestModel
         {
-            var friendRequest = new Friends();
-            friendRequest.FriendId = "1";
-            friendRequest.UserId = "2";
-            friendRequest.Approved = false;
-            await _context.Friends.AddAsync(friendRequest);
-            await _context.SaveChangesAsync();
+            public string Email { get; set; }
+            public string OwnerId { get; set; }
+            public bool Approved { get; set; }
+        }
 
-            //get all the users from the database
+        public void OnGet()
+        {
+            Current_User = User.Identity.Name;
+
             Users = _userManager.Users.ToList()
-                .Select(a => new SelectListItem { Text = a.UserName, Value = a.UserName })
+                .Select(a => new SelectListItem { Text = a.UserName, Value = a.Id })
+                .Where(a => a.Text != Current_User)
                 .OrderBy(s => s.Text).ToList();
 
-            //get logged in user name
-            MyUser = User.Identity.Name;
+            var current_User = _userManager.FindByEmailAsync(Current_User);
+            FriendshipRequests = _context.Friends
+                .Select(a => new FriendRequestModel { OwnerId = a.FriendId, Approved = a.Approved, Email = _userManager.FindByIdAsync(a.UserId).Result.Email })
+                .Where(x => x.OwnerId.Equals(current_User.Result.Id) && !x.Approved).ToList();
 
+            FriendList = _context.Friends
+                .Select(a => new FriendRequestModel { OwnerId = a.FriendId, Approved = a.Approved, Email = _userManager.FindByIdAsync(a.UserId).Result.Email })
+                .Where(x => x.OwnerId.Equals(current_User.Result.Id) && x.Approved).ToList();
         }
 
-        //public async Task OnPostAsync()
-        //{
-        //    var friendRequest = new Friends();
-        //    friendRequest.FriendId = "1";
-        //    friendRequest.UserId = "2";
-        //    friendRequest.Approved = false;
-        //    await _context.Friends.AddAsync(friendRequest);
-        //    await _context.SaveChangesAsync();
-        //}
+        public async Task<IActionResult> OnPostAcceptRequest(Friends friendRequest)
+        {
+
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> OnPost(Friends friendRequest)
+        {
+            var current_User = await _userManager.GetUserAsync(HttpContext.User);
+            friendRequest.FriendId = Request.Form["receiver"].ToString();
+            friendRequest.UserId = current_User.Id;
+            friendRequest.Approved = false;
+
+            await  _context.Friends.AddAsync(friendRequest);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -1,14 +1,61 @@
 ﻿@page
-@model AddFriendModel
+@model CANBOOKRAM.Pages.friend.AddFriendModel
 @{
-        ViewData["Title"] = "Add Friend";
+    ViewData["Title"] = "Add Friends";
 }
-
 <div class="container">
-       <div class="row">
-         <div class="col-2">Receiver</div>
-         <div class="col-4">@Html.DropDownList("receiver",Model.Users, "All")</div>
-       </div>
-       @*<button type="submit" id="sendMessage" onclick="@Model.OnPostAsync()">Send Friend Request</button>*@
+    <h2>Your waiting friendship requests</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in Model.FriendshipRequests)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                </tr>
+                <tr>
+                    <td><button>accept</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-​
+<br /><br />
+<div class="container">
+    <h2>Your friends</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in Model.FriendList)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                </tr>
+                <tr>
+                    <td><button>delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br /><br />
+<div class="container">
+    <h2>Add friend</h2>
+    <form method="post">
+        <div class="row">
+             <div class="col-2">Receiver</div>
+             <div class="col-4">@Html.DropDownList("receiver",Model.Users, "Select")</div>
+        </div>
+        <button id="Submit" type="submit">Add Friend</button>
+    </form>
+</div>
