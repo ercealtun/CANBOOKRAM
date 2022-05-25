@@ -3,50 +3,27 @@
 @{
     ViewData["Title"] = "Add Friends";
 }
+
 <div class="container">
     <h2>Your waiting friendship requests</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var user in Model.FriendshipRequests)
-            {
-                <tr>
-                    <td>@user.Email</td>
-                </tr>
-                <tr>
-                    <td><button>accept</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <form asp-page-handler="edit" method="post">
+        <div class="row">
+             <div class="col-2">Requests</div>
+             <div class="col-4">@Html.DropDownList("requests",Model.FriendshipRequests, "Select")</div>
+        </div>
+        <button>accept</button>
+    </form>
 </div>
 <br /><br />
 <div class="container">
     <h2>Your friends</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var user in Model.FriendList)
-            {
-                <tr>
-                    <td>@user.Email</td>
-                </tr>
-                <tr>
-                    <td><button>delete</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <form asp-page-handler="View" method="post">
+        <div class="row">
+             <div class="col-2">Friends</div>
+             <div class="col-4">@Html.DropDownList("friends",Model.FriendList, "Select")</div>
+        </div>
+        <button>delete</button>
+    </form>
 </div>
 <br /><br />
 <div class="container">
