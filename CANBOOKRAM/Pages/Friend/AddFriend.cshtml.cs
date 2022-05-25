@@ -56,6 +56,8 @@ namespace CANBOOKRAM.Pages.friend
 
         public async Task<IActionResult> OnPostAcceptRequest(Friends friendRequest)
         {
+
+
             return RedirectToAction("Index");
         }
 

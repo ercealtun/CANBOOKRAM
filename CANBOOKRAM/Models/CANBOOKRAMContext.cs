@@ -25,7 +25,6 @@ namespace CANBOOKRAM.Models
         public virtual DbSet<UserPost> UserPosts { get; set; } = null!;
         public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
         public virtual DbSet<Friends> Friends { get; set; } = null!;
-        public virtual DbSet<UserRating> UserRatings { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -157,21 +156,6 @@ namespace CANBOOKRAM.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.UserId).HasMaxLength(450);
-            });
-
-            modelBuilder.Entity<UserRating>(entity =>
-            {
-                entity.ToTable("UserRating");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Userid)
-                    .HasMaxLength(450)
-                    .HasColumnName("userid");
-
-                entity.Property(e => e.Whorated)
-                    .HasMaxLength(450)
-                    .HasColumnName("whorated");
             });
 
             OnModelCreatingPartial(modelBuilder);
