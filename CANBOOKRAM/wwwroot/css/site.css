@@ -14,7 +14,16 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url("/images/background.png");
+}
+
+/* Icon */
+
+.canbookram_can {
+    font-style: italic;
+    font-weight: bold;
+    font-size: larger;
 }
 
 /* Chat containers */
